@@ -246,7 +246,7 @@ Should a specific identity format be mandatory? How can cross-system delegation 
 
 role field values lack a unified vocabulary. During cross-organizational audits, how can we map role permissions from different naming systems? Is a public role registry needed?
 
-### 6.8.Role Identifiers
+### 6.8 Role Identifiers
 
 The current role field uses uncontrolled strings (e.g., "senior_risk_officer"). When auditing across organizations, role permissions from different naming systems are difficult to map.
 Open Issue: Should future versions migrate to URI or DID formats? Is a public role registry needed? Who should maintain it?
