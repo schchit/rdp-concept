@@ -4,6 +4,14 @@
   <a href="README.zh-CN.md">中文</a> | <strong>English</strong>
 </p>
 
+<p align="center">
+ 
+  <a href="https://creativecommons.org/licenses/by-sa/4.0/">
+    <img src="https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey" alt="License">
+  </a>
+ 
+</p>
+
 The **Responsibility Delegation Protocol (RDP)** is the protocol layer that records the fact of delegation. It is the pre-protocol of [HJS (Human Judgment System)](../README.md).
 
 ---
