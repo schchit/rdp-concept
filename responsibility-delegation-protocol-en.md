@@ -8,11 +8,21 @@
 
 **Editor:** HJS Sponsor
 
-[![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
-
-[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
-[cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
-[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
+<p align="left">
+  <a href="https://github.com/schchit/Responsibility-Delegation-Protocol
+">
+    <img src="https://img.shields.io/badge/Status-Public%20Proposal-blue" alt="Status">
+  </a>
+  <a href="https://creativecommons.org/licenses/by-sa/4.0/">
+    <img src="https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey" alt="License">
+  </a>
+  <a href="https://github.com/schchit/Responsibility-Delegation-Protocol/issues">
+    <img src="https://img.shields.io/badge/Issues-Welcome-brightgreen" alt="Issues">
+  </a>
+  <a href="https://github.com/schchit/Responsibility-Delegation-Protocol/stargazers">
+    <img src="https://img.shields.io/github/stars/schchit/Responsibility-Delegation-Protocol?style=social" alt="GitHub stars">
+  </a>
+</p>
 
 ---
 
