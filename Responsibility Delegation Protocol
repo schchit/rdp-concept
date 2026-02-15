@@ -1,104 +1,115 @@
-协议名称： Responsibility Delegation Protocol  
-版本： v0.1（概念草案）  
-日期： 2026.03  
-编辑： HJS发起人
-仓库： https://github.com/schchit/rdp-concept  
-开源协议： CC BY-SA 4.0
+# Responsibility Delegation Protocol (RDP)
 
-0. 定位
-HJS 在决策执行前插入判断层，使人类监督可记录、可验证。
-判断权从何而来？委托。
-权限系统回答“现在谁有权”。  
-权限系统不回答：权从何来、为何授予、授予多久、能否撤回。
-RDP 是记录委托事实的协议层。
-1. 问题
-1.1 定义
-委托蒸发：委托关系未被记录，或记录不可验证、不可追溯，导致责任链断裂。
+**Version:** v0.1 (Concept Draft) · **February 2026**  
+**Editor:** HJS Protocol Initiator  
+**Repository:** [https://github.com/schchit/rdp-concept](https://github.com/schchit/rdp-concept)  
+**License:** CC BY-SA 4.0
 
-1.2 三类场景
-口头授权  
-经理在即时通讯中说：“这周你代我审批。”  
-受托人执行审批。  
-三个月后发生误判。经理已离职。  
-系统日志显示审批人系受托人，无任何记录证明该审批权来自委托。  
-审计结论：责任链在第一次委托处断裂。
+---
 
-转包黑洞  
-车企将路测分析委托给外包商。  
-外包商二次分包。  
-事故后，原始主体主张“任务已委托”，外包商主张“仅承担管理责任”，分包方已解散。  
-委托关系从未进入可审计系统。责任在转包序列中完全蒸发。
+## 0. Position
 
-系统代理  
-监控系统检测到操作员超时，自动将决策权限转移至后备值班员。  
-事故后追溯发现，权限转移规则于两年前配置。  
-规则配置者已转岗。  
-批准该规则的上游审批记录不存在。  
-人类将委托权让渡给系统，系统不记录自身的委托来源。
+HJS records verifiable human judgment before irreversible decisions. RDP records the source of that judgment authority — delegation.
 
-1.3 结构缺陷
-三类场景的共同结构：
+Permission systems answer "who currently has access." They do not answer where that authority came from, why it was granted, how long it lasts, or whether it can be revoked. RDP provides a protocol layer for recording delegation facts.
 
-1. 委托行为发生  
-2. 委托行为未被形式化记录  
-3. 决策执行时仅校验权限状态，不校验权限来源  
-4. 审计时权限来源不可追溯
-  
-当前系统架构中，委托是唯一没有证据层的责任转移形式。
-2. 定义
-术语
-定义
-责任委托
-主体将其在特定范围内的决策判断权转移给另一主体
-委托人
-发起委托的主体
-受托人
-接受委托的主体
-委托凭证
-记录委托行为的数据结构，用于验证、撤销、审计
-委托链
-从原始责任主体至当前执行者之间，有效委托凭证构成的序列
-委托蒸发
-委托关系未被记录或记录不可验证，导致责任追溯中断
-定义仅描述结构特征，不预设委托的合法性来源。
-3. 约束
-3.1 结构不可绕过
-委托行为必须通过 RDP 协议完成。
+---
 
-- 任何决策权限必须可溯源至原始责任主体或有效委托凭证
-- 系统不得提供不生成委托凭证的权限配置路径
-- 委托凭证须写入不可篡改存储层
-  
-此约束不可配置。  
-若存在绕过路径，所有委托记录的公信力归零。
+## 1. Problem
 
-3.2 双向承诺
-委托须经受托人签名确认。
+### 1.1 Definition
 
-- 委托人签名：授予权限，承担监督责任
-- 受托人签名：接受权限，承担执行责任
-  
-未确认的委托凭证无效。
-3.3 显式范围
-委托权限必须明确定义边界。
-最小必需字段：
-- 决策类型
-- 阈值条件
-- 有效期
-全权委托须显式声明，且应设置明确有效期。
+**Delegation Evaporation**: Delegation relationships are unrecorded or non‑verifiable, leading to broken accountability chains.
 
-3.4 可撤销
-- 委托人可随时撤销委托
-- 撤销行为生成撤销凭证，与原委托凭证关联
-- 撤销生效后，依赖该委托的权限应在可接受的时间窗口内终止
-- 传播延迟期内执行的决策，其效力由委托人与受托人事先约定
-  
-3.5 可审计
-- 委托链须完整可追溯
-- 审计接口向合规方、监管方开放
-- 委托凭证一经锚定，不可删除
+### 1.2 Three Common Scenarios
 
-4. 数据结构
+**Verbal Authorization**  
+A manager says in an instant message: "Approve for me this week."  
+The delegatee executes approvals.  
+Three months later, a misjudgment occurs. The manager has left.  
+System logs show the delegatee as the approver, but no record proves the approval authority came from the manager.  
+Audit conclusion: the accountability chain breaks at the first delegation.
+
+**Subcontracting Chain**  
+An automaker delegates road‑test analysis to an outsourcer.  
+The outsourcer sub‑delegates to freelancers.  
+After an incident, the principal claims "the task was delegated," the outsourcer claims "we only managed," and the subcontractor has dissolved.  
+Delegation relationships never entered any auditable system. Accountability evaporates completely in the subcontracting chain.
+
+**System‑Automated Delegation**  
+A monitoring system detects operator timeout and automatically transfers decision authority to a backup operator.  
+After an incident, investigation reveals the transfer rule was configured two years ago.  
+The rule configurer has changed roles.  
+No upstream approval record for the rule exists.  
+Authority transfers occur without traceable delegation records.
+
+### 1.3 Structural Gap
+
+All three scenarios share the same structure:
+
+1. Delegation occurs.
+2. Delegation is not formally recorded.
+3. Decision execution checks only the permission state, not the permission source.
+4. Audits cannot trace the permission source.
+
+In current system architectures, delegation is the only form of responsibility transfer without an evidence layer.
+
+---
+
+## 2. Core Concepts
+
+| Term | Description |
+|------|-------------|
+| Delegation | Transfer of decision authority within a specific scope |
+| Delegator | Entity initiating the delegation |
+| Delegatee | Entity receiving the delegation |
+| Delegation Credential | Data structure recording the delegation act |
+| Delegation Chain | Sequence of credentials from original authority to current executor |
+| Delegation Evaporation | Delegation relationships unrecorded or non‑verifiable, breaking accountability chains |
+
+Definitions describe structural characteristics only; they do not presuppose legal validity.
+
+---
+
+## 3. Protocol Constraints
+
+### 3.1 Non‑circumventable Structure
+- Delegation must use RDP
+- Every decision authority must be traceable to an original responsible entity or a valid delegation credential
+- Systems must not provide permission‑configuration paths that bypass credential generation
+- Delegation credentials must be written to an immutable storage layer
+
+*This constraint is not configurable.*
+
+### 3.2 Two‑Party Consent
+- Delegation requires signatures from both delegator and delegatee
+- Delegator signature: grants authority
+- Delegatee signature: accepts authority
+- Unsigned credentials are invalid
+
+### 3.3 Explicit Scope
+- Decision types
+- Threshold conditions
+- Validity period
+
+*Full delegation must be explicitly declared and have a clear validity period.*
+
+### 3.4 Revocable
+- Delegators may revoke at any time
+- Revocation generates a record linked to the original credential
+- After revocation, permissions terminate within an acceptable time window
+- Decision validity during propagation delay should be agreed in advance
+
+### 3.5 Auditable
+- Delegation chains must be fully traceable
+- Audit interfaces open to compliance and regulatory bodies
+- Credentials cannot be deleted once anchored
+
+---
+
+## 4. Data Structure (Speculative)
+
+```json
 {
   "protocol": "RDP/1.0",
   "credential_id": "rdp-20260312-001",
@@ -128,55 +139,67 @@ RDP 是记录委托事实的协议层。
     "timestamp": "2026-03-12T09:30:15Z"
   }
 }
-未确定：
-- 身份标识格式（DID/email/AD）
-- 范围表达式的复杂度（AND/OR/嵌套）
-- 系统自动委托的凭证生成主体
-  
-5. 位置
-RDP 是 HJS 的前置协议。
-委托凭证 → HJS 判断记录
+Undetermined:
 
-- HJS：记录“谁执行了判断”
-- RDP：记录“谁有权执行此判断，权从何来”
-RDP 不依赖 HJS。  
-可独立部署于任何需要记录委托关系的系统。
+Identity format (DID/email/AD)
 
-6. 开放问题
-6.1 委托深度  
-委托链是否应设置长度上限？若设限，几级？
+Scope expression complexity (AND/OR/nesting)
 
-6.2 跨域委托  
-A组织向B组织人员授权时，委托凭证如何验证？是否需要全局信任锚？
+Credential issuer for system‑automated delegation
 
-6.3 撤销延迟  
-撤销凭证生成后，已缓存凭证的节点应在多长时间内失效？延迟期内执行的决策是否有效？
+5. Position Relative to HJS
+text
+Delegation Credential (RDP) → HJS Judgment Record
+HJS: records who executed a judgment
 
-6.4 紧急委托  
-是否允许事后补交委托凭证？补办时限？补办凭证可否覆盖紧急期间的决策？
+RDP: records who had authority to execute that judgment and where that authority came from
 
-6.5 系统委托  
-人类可否预授权委托策略？策略本身应以何种数据结构存证？
+RDP does not depend on HJS and can be deployed independently in any system that needs to record delegation relationships.
 
-6.6 身份兼容  
-是否应强制特定身份格式？如何保证跨系统委托凭证可互认？
+6. Open Issues
+6.1 Delegation Depth
+Should delegation chains have a maximum length? If so, how many levels?
 
-6.7 角色标识  
-role字段取值缺乏统一词汇表。跨组织审计时，如何映射不同命名体系的角色权限？是否需要公共角色注册表？
+6.2 Cross‑Domain Delegation
+When Organization A authorizes someone in Organization B, how are credentials verified? Is a global trust anchor needed?
 
-7. 开源
-协议文本： CC BY-SA 4.0  
-示例代码： 待贡献  
+6.3 Revocation Latency
+After a revocation credential is generated, how long should cached credentials remain active? Are decisions made during the latency window valid?
 
-8. 参与
-贡献方式：
-- Issue：指出错误、遗漏或更好的设计
-- Pull Request：修改文本、补充用例、提供示例代码
-  
-特别需要：
-- 有企业委托审批实践经验的架构师
-- 熟悉电子签名法、证据规则的法律从业者
-- 处理过跨域委托合规问题的从业者
+6.4 Emergency Delegation
+Should post‑event delegation credentials be allowed? What is an acceptable grace period? Can a post‑event credential retroactively cover decisions made during the emergency?
 
-GitHub / Issues / CC BY-SA 4.0  
-Making automated systems more accountable, making human judgment more valuable.
+6.5 System‑Automated Delegation
+Can humans pre‑authorize delegation policies? How should such policies themselves be recorded?
+
+6.6 Identity Compatibility
+Should RDP mandate a specific identity format? How can cross‑system interoperability be ensured if legacy identities (email, AD) are supported?
+
+6.7 Role Semantics
+The role field lacks a controlled vocabulary. How can different naming systems be mapped during cross‑organizational audits? Is a public role registry needed?
+
+7. Open Source
+License: CC BY-SA 4.0
+
+Sample Code: To be contributed
+
+Anyone may implement commercial or non‑commercial products based on this draft. No license fees are required.
+
+8. Participation
+Ways to contribute:
+
+Issue: Point out errors, omissions, or better designs
+
+Pull Request: Revise text, add use cases, or provide sample code
+
+Especially needed:
+
+Architects with experience in enterprise delegation/approval workflows
+
+Legal professionals familiar with electronic signature laws and rules of evidence
+
+Practitioners who have handled cross‑domain delegation compliance
+
+GitHub / Issues / CC BY-SA 4.0
+
+RDP v0.1
