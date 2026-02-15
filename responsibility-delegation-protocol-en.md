@@ -1,7 +1,7 @@
 # Responsibility Delegation Protocol (RDP)
 
 <p align="center">
-  <a href="README.zh-CN.md">中文</a> | <strong>English</strong>
+  <a href="CN-responsibility-delegation-protocol.md">中文</a> | <strong>English</strong>
 </p>
 
 **Protocol Name:** Responsibility Delegation Protocol
